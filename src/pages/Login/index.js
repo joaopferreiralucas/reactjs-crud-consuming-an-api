@@ -1,20 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Title } from './styled';
 import { Container } from '../../styles/GlobalStyles';
-import axios from '../../services/axios';
 
 export default function Login() {
-  React.useEffect(() => {
-    async function getData() {
-      const res = await axios.get('/alunos');
-      const { data } = res;
-      // eslint-disable-next-line no-console
-      console.log(data);
-    }
+  const dispatch = useDispatch();
 
-    getData();
-  }, []);
+  function handleClick(e) {
+    e.preventDefault();
+
+    dispatch({
+      type: 'BOTAO_CLICADO',
+    });
+  }
 
   return (
     <Container>
@@ -23,7 +22,7 @@ export default function Login() {
         <small>oie</small>
       </Title>
       <p>Lorem Ipsuimajdslkash</p>
-      <button type="submit">Enviar</button>
+      <button type="submit" onClick={handleClick}>Enviar</button>
     </Container>
   );
 }
