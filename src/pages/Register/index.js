@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { isEmail } from 'validator';
@@ -14,7 +13,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let formErrors = false;
 
@@ -51,7 +50,7 @@ export default function Register() {
 
       errors.map((error) => toast.error(`ERRO: ${status} - ${error}!!`));
     }
-  }
+  };
 
   return (
     <Container>
