@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { get } from 'lodash';
-import { FaUserCircle, FaEdit, FaWindowClose } from 'react-icons/fa';
+import {
+  FaUserCircle, FaEdit, FaWindowClose, FaExclamationCircle,
+} from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import { Container } from '../../styles/GlobalStyles';
 import { AlunoContainer, ProfilePhoto } from './styled';
 import axios from '../../services/axios';
+import { warningColor } from '../../config/colors';
 
 export default function Alunos() {
   const [alunos, setAlunos] = useState([]);
@@ -21,12 +24,41 @@ export default function Alunos() {
     getData();
   }, []);
 
+  const handleAskDelete = (e) => {
+    e.preventDefault();
+
+    const exclamation = e.currentTarget.nextSibling;
+
+    e.currentTarget.remove();
+    exclamation.setAttribute('display', 'block');
+  };
+
+  const handleDelete = async (e, id, index) => {
+    e.persist();
+
+    try {
+      await axios.delete(`/alunos/${id}`);
+
+      const novosAlunos = [...alunos];
+      novosAlunos.splice(index, 1);
+      setAlunos(novosAlunos);
+    } catch (err) {
+      const status = get(err, 'response.status', 0);
+
+      if (status === 401) {
+        toast.error('Voce precisa estar logado!!!');
+      } else {
+        toast.error('Ocorreu um erro ao excluir aluno');
+      }
+    }
+  };
+
   return (
     <Container>
       <h1>Alunos</h1>
 
       <AlunoContainer>
-        {alunos.map((aluno) => (
+        {alunos.map((aluno, index) => (
           <div key={String(aluno.id)}>
             <ProfilePhoto>
               {get(aluno, 'Fotos[0].url', false) ? (
@@ -39,7 +71,8 @@ export default function Alunos() {
             <span>{aluno.email}</span>
 
             <Link to={`/aluno/${aluno.id}/edit`}><FaEdit size={16} /></Link>
-            <Link to={`/aluno/${aluno.id}`}><FaWindowClose size={16} /></Link>
+            <Link to={`/aluno/${aluno.id}`} onClick={handleAskDelete}><FaWindowClose size={16} /></Link>
+            <FaExclamationCircle color={warningColor} size={16} display="none" cursor="pointer" onClick={(e) => handleDelete(e, aluno.id, index)} />
           </div>
         ))}
       </AlunoContainer>
