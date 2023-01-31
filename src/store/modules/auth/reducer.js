@@ -23,6 +23,23 @@ export default (state = initialState, action) => {
       return newState;
     }
 
+    case types.REGISTER_REQUEST: {
+      const newState = { ...state };
+      return newState;
+    }
+
+    case types.REGISTER_SUCCESS: {
+      const newState = { ...state };
+      newState.user.nome = action.payload.nome;
+      newState.user.email = action.payload.email;
+      return newState;
+    }
+
+    case types.REGISTER_FAILURE: {
+      const newState = { ...state };
+      return newState;
+    }
+
     default: {
       return state;
     }
