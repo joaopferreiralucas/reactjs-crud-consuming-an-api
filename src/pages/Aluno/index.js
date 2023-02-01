@@ -82,7 +82,7 @@ export default function Aluno({ match }) {
       }
     } catch (err) {
       const status = get(err, 'response.status', 0);
-      const errors = get(err, 'response.data.error', []);
+      const errors = get(err, 'response.data.errors', []);
 
       if (errors.length > 0) {
         errors.map((error) => toast.error(error));
