@@ -7,7 +7,7 @@ import {
 import { toast } from 'react-toastify';
 
 import { Container } from '../../styles/GlobalStyles';
-import { AlunoContainer, ProfilePhoto } from './styled';
+import { AlunoContainer, ProfilePhoto, NovoAluno } from './styled';
 import axios from '../../services/axios';
 import { warningColor } from '../../config/colors';
 
@@ -56,6 +56,8 @@ export default function Alunos() {
   return (
     <Container>
       <h1>Alunos</h1>
+
+      <NovoAluno to="/aluno/">Novo aluno</NovoAluno>
 
       <AlunoContainer>
         {alunos.map((aluno, index) => (

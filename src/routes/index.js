@@ -16,7 +16,7 @@ export default function Routes() {
 
       <MyRoute exact path="/aluno/:id/edit" component={Aluno} isClosed />
 
-      <MyRoute exact path="/aluno" component={Alunos} isClosed />
+      <MyRoute exact path="/aluno" component={Aluno} isClosed />
 
       <MyRoute exact path="/photos/:id" component={Photos} isClosed />
 
